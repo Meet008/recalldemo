@@ -15,25 +15,32 @@ export default function EditUserDialog({
   editUserInfo,
   setRows,
   rows,
+  setEditUserInfo,
 }) {
   useEffect(() => {
-    console.log(editUserInfo);
-  }, [editUserInfo]);
+    console.log("called");
+  }, []);
+
+  let a = [...editUserInfo];
 
   function handleChangeFirstName(e) {
-    editUserInfo[0].firstName = e.target.value;
+    a[0].firstName = e.target.value;
+    setEditUserInfo(a);
   }
 
   function handleChangeLastName(e) {
-    editUserInfo[0].lastName = e.target.value;
+    a[0].lastName = e.target.value;
+    setEditUserInfo(a);
   }
 
   function handleChangePhone(e) {
-    editUserInfo[0].phone = e.target.value;
+    a[0].phone = e.target.value;
+    setEditUserInfo(a);
   }
 
   function handleChangeEmail(e) {
-    editUserInfo[0].email = e.target.value;
+    a[0].email = e.target.value;
+    setEditUserInfo(a);
   }
 
   return (

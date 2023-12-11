@@ -193,9 +193,26 @@ export default function EnhancedTable() {
     [open]
   );
 
+  const handleDelete = (e) => {
+    let newData = rows.filter((i) => i.id !== e);
+
+    setRows(newData);
+  };
+
   const handleClose = () => {
     setOpen(false);
     setSelected([]);
+
+    const newData = rows.map((c, i) => {
+      if (i === editUserInfo.id) {
+        // Increment the clicked counter
+        return editUserInfo;
+      } else {
+        // The rest haven't changed
+        return c;
+      }
+    });
+    setRows(newData);
   };
 
   const handleRequestSort = (event, property) => {
@@ -258,7 +275,7 @@ export default function EnhancedTable() {
         page * rowsPerPage,
         page * rowsPerPage + rowsPerPage
       ),
-    [order, orderBy, page, rowsPerPage]
+    [order, orderBy, page, rowsPerPage, rows]
   );
 
   return (
@@ -286,7 +303,6 @@ export default function EnhancedTable() {
                 return (
                   <TableRow
                     hover
-                    onClick={(event) => handleClick(event, row.id)}
                     role="checkbox"
                     aria-checked={isItemSelected}
                     tabIndex={-1}
@@ -294,7 +310,10 @@ export default function EnhancedTable() {
                     selected={isItemSelected}
                     sx={{ cursor: "pointer" }}
                   >
-                    <TableCell padding="checkbox">
+                    <TableCell
+                      padding="checkbox"
+                      onClick={(event) => handleClick(event, row.id)}
+                    >
                       <Checkbox
                         color="primary"
                         checked={isItemSelected}
@@ -316,7 +335,10 @@ export default function EnhancedTable() {
                     <TableCell align="right">{row.email}</TableCell>
                     <TableCell align="center">
                       <Button onClick={() => handleClickOpen(row.id)}>
-                        Click me
+                        Edit
+                      </Button>
+                      <Button onClick={() => handleDelete(row.id)}>
+                        Delete
                       </Button>
                     </TableCell>
                   </TableRow>
@@ -358,6 +380,7 @@ export default function EnhancedTable() {
           handleClickOpen={handleClickOpen}
           handleClose={handleClose}
           editUserInfo={editUserInfo}
+          setEditUserInfo={setEditUserInfo}
           rows={rows}
           setRows={setRows}
         />
